@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+
+    <script>
+
+        function validation() {
+            
+            var name = document.getElementById('userName').value.trim();
+
+           // alert(name);
+
+            var nameError = document.getElementById('nameError');
+            var emailError = document.getElementById('emailError');
+            var phoneError = document.getElementById('phoneError');
+            
+            var nameExpression = /^[A-Za-z]+$/;
+            if(name.length == 0) {
+                nameError.innerHTML = "Name is required!!!";
+                return false;
+            }
+           else if(!name.match(nameExpression)) {
+                    nameError.innerHTML =  "Please enter valid name!!!!" + name + ":";
+                    return false;
+            } else {
+                alert("Error");
+                return false;
+            }
+            return false;
+        }
+    </script>
+
+</head>
+<body>
+    <form onsubmit="return validation()">
+        <table>
+            <tr>
+                <th colspan="2">Form Validation</th>
+            </tr>
+
+            <tr>
+                <td> Enter Name </td>
+                <td> 
+                    <input type="text" name="username" id="userName" required>
+                    <span id="nameError"></span> 
+                </td>
+            </tr>
+
+            <tr>
+                <td> Enter Email </td>
+                <td> 
+                    <input type="email" name="email" id="email" required>
+                    <span id="emailError"></span> 
+                </td>
+            </tr>
+
+            <tr>
+                <td> Enter Phone </td>
+                <td>
+                    <input type="tel" name="phone" id="phone" required pattern="[6-9]{2}[0-9]{8}">
+                    <span id="emailError"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Password</td>
+                <td>
+                    <input type="password" name="password" id="password">
+                </td>
+            </tr>
+
+            <tr>
+                <td>Confirm Password</td>
+                <td>
+                    <input type="password" name="password" id="password">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" name="submit" value="submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
