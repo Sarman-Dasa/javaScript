@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculate</title>
+    <script>
+        function cal() {
+            let no1 = Number(document.getElementById('firstNumber').value);
+            let no2 = Number(document.getElementById('secondNumber').value);
+            alert(no1 + no2);
+        }
+    </script>
+</head>
+<body>
+    <table border="2" align="center">
+        <tr>
+            <td>First Value</td>
+            <td><input type="text" name="firstNumber" id="firstNumber"> </td>
+        </tr>
+        <tr>
+            <td>Second Number</td>
+            <td><input type="text" name="secondNumber" id="secondNumber"> </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button onclick="cal()">Click Here</button> 
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
