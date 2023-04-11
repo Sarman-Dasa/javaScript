@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaction</title>
+    <script>
+        //confirmation before data delete
+        function confirmation() {
+            var result = confirm("Do you want to delete!!!");
+            if(result) {
+                alert('data deleted successfully');
+            }
+        }
+
+        //get user data form prompt box and show data on alert
+        function getUserName() {
+            var userName = prompt("Enter your name");
+            document.getElementById('userName').innerHTML = "User name = " + userName;
+            alert(userName);
+        }
+
+        //open a new window
+        function openWindow() {
+            open('http://127.0.0.1:5500/historyObject.html');
+        }
+    </script>
+</head>
+<body>
+    <button id="delete" onclick="confirmation()">Delete</button>
+    <button id="getData" onclick="getUserName()">GetName</button>
+    <button id="openWindow" onclick="openWindow()">Open New Window</button>
+    <span id="userName"></span>
+    <button onclick="history.back()">Back</button>
+</body>
+</html>
