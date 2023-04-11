@@ -9,23 +9,79 @@
         function cal() {
             let no1 = Number(document.getElementById('firstNumber').value);
             let no2 = Number(document.getElementById('secondNumber').value);
-            alert(no1 + no2);
+            let operation = document.querySelector('input[name="operation"]:checked');
+            var result = 0;
+            if(operation != null)
+            {
+                switch(operation.value)
+                {
+                    case '/':
+                        result = no1 / no2;
+                        break;
+                    
+                    case '*':
+                        result = no1 * no2;
+                        break;
+                    
+                    case '+' :
+                        result = no1 + no2;
+                        break;
+                    
+                    case '-':
+                        result = no1 - no2;
+                        break;
+                }
+                document.getElementById('output').innerHTML = "Output = " + result;
+
+            } else {
+                alert('select atlist one operation!!!');
+            }
         }
+
+        function swap() { 
+            let firstNumber = document.getElementById('firstNumber');
+            let secondNumber =document.getElementById('secondNumber');
+            no1 = Number(firstNumber.value);
+            no2 = Number(secondNumber.value)
+            no1 = no1 + no2;
+            no2 = no1 - no2;
+            no1 = no1 - no2;
+            //alert(no1 + " "+no2);
+            firstNumber.value   = no1;
+            secondNumber.value  = no2;
+         }
     </script>
 </head>
 <body>
     <table border="2" align="center">
         <tr>
+            <td>Operation</td>
+            <td>
+                <input type="radio" name="operation" id="division" value="/"> /
+                <input type="radio" name="operation" id="multiplication" value="*"> *
+                <input type="radio" name="operation" id="addition" value="+"> +
+                <input type="radio" name="operation" id="substration" value="-"> -
+            </td>
+        </tr>
+        <tr>
             <td>First Value</td>
             <td><input type="text" name="firstNumber" id="firstNumber"> </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button onclick="swap()">Swap Value</button>
+            </td>
         </tr>
         <tr>
             <td>Second Number</td>
             <td><input type="text" name="secondNumber" id="secondNumber"> </td>
         </tr>
         <tr>
-            <td colspan="2" align="center">
+            <td align="center">
                 <button onclick="cal()">Click Here</button> 
+            </td>
+            <td>
+                <span id="output"></span>
             </td>
         </tr>
     </table>
