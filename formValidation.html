@@ -5,38 +5,85 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation</title>
-
+    <style>
+        span{
+            color: red;
+            display: block;
+        }
+    </style>
     <script>
 
+        function setError(id, error) {
+            document.getElementById(id).innerHTML = error;
+        }
+        
+        function clearError() {
+            errors = document.getElementsByTagName('span');
+            for (let error of errors)
+                error.innerHTML = "";
+        }
         function validation() {
-            
-            var name = document.getElementById('userName').value.trim();
+            clearError();
+            var result = true;
+            var name            = document.getElementById('userName').value.trim();
+            var email           = document.getElementById('email').value;
+            var password        = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmpassword').value;
 
-           // alert(name);
-
-            var nameError = document.getElementById('nameError');
-            var emailError = document.getElementById('emailError');
-            var phoneError = document.getElementById('phoneError');
-            
             var nameExpression = /^[A-Za-z]+$/;
             if(name.length == 0) {
-                nameError.innerHTML = "Name is required!!!";
-                return false;
+
+                setError ("nameError", "Name is required!!!");
+                result =  false;
+
+            } else if(!name.match(nameExpression)) {
+
+                setError ("nameError","Please enter valid name!!!!");
+                result = false;
+
+            } if(email.length>30) {
+
+                setError ("emailError","Email data are so long!!!");
+                result = false;
+
+            } if(password.length == 0) {
+
+                setError("passwordError", "password fileds is reqiured");
+                result = false;
+
+            } if(confirmPassword.length == 0) {
+
+                setError("confirmpasswordError", "confirm password fileds is reqiured");
+                result = false;
+
+            } if(password.length < 8) {
+
+                setError("passwordError","password must be at least 8 characters");
+                result = false;
+
+            } else if(password.search(/[a-z]/i) < 0) {
+
+                setError("passwordError","password must contain at least one letter.");
+                result = false;
+
+            } else if (password.search(/[0-9]/) < 0) {
+                
+                setError("passwordError","password must contain at least one digit.");
+                result = false;
+
+            } else if (confirmPassword != password) {
+
+                setError("confirmpasswordError","password and confirm password does not match");
+                result = false;
+
             }
-           else if(!name.match(nameExpression)) {
-                    nameError.innerHTML =  "Please enter valid name!!!!" + name + ":";
-                    return false;
-            } else {
-                alert("Error");
-                return false;
-            }
-            return false;
+            return result;
         }
     </script>
 
 </head>
 <body>
-    <form onsubmit="return validation()">
+    <form action="calculate.html" onsubmit="return validation()">
         <table>
             <tr>
                 <th colspan="2">Form Validation</th>
@@ -70,13 +117,15 @@
                 <td>Password</td>
                 <td>
                     <input type="password" name="password" id="password">
+                    <span id="passwordError"></span>
                 </td>
             </tr>
 
             <tr>
                 <td>Confirm Password</td>
                 <td>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="confirmpassword" id="confirmpassword">
+                    <span id="confirmpasswordError"></span>
                 </td>
             </tr>
 
