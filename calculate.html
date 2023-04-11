@@ -6,15 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>calculate</title>
     <script>
-        function cal() {
+
+        function validation() {  
+            let no1 = Number(document.getElementById('firstNumber').value);
+            let no2 = Number(document.getElementById('secondNumber').value);
+
+            if(no1 == "" || no2 == "")
+            {
+                alert("Enter some value!!!");
+                return false;
+            }
+        }
+        function calculate() {
+            
+            if(!validation()) {
+                return false;
+            }
+
             let no1 = Number(document.getElementById('firstNumber').value);
             let no2 = Number(document.getElementById('secondNumber').value);
             let operation = document.querySelector('input[name="operation"]:checked');
             var result = 0;
-            if(operation != null)
-            {
-                switch(operation.value)
-                {
+            if(operation != null) {
+
+                switch(operation.value) {
                     case '/':
                         result = no1 / no2;
                         break;
@@ -39,6 +54,7 @@
         }
 
         function swap() { 
+
             let firstNumber = document.getElementById('firstNumber');
             let secondNumber =document.getElementById('secondNumber');
             no1 = Number(firstNumber.value);
@@ -46,10 +62,10 @@
             no1 = no1 + no2;
             no2 = no1 - no2;
             no1 = no1 - no2;
-            //alert(no1 + " "+no2);
             firstNumber.value   = no1;
             secondNumber.value  = no2;
          }
+
     </script>
 </head>
 <body>
@@ -57,15 +73,15 @@
         <tr>
             <td>Operation</td>
             <td>
-                <input type="radio" name="operation" id="division" value="/"> /
-                <input type="radio" name="operation" id="multiplication" value="*"> *
-                <input type="radio" name="operation" id="addition" value="+"> +
-                <input type="radio" name="operation" id="substration" value="-"> -
+                <input type="radio" name="operation" id="division" value="/" onchange="calculate()"> /
+                <input type="radio" name="operation" id="multiplication" value="*" onchange="calculate()"> *
+                <input type="radio" name="operation" id="addition" value="+" onchange="calculate()"> +
+                <input type="radio" name="operation" id="substration" value="-" onchange="calculate()"> -
             </td>
         </tr>
         <tr>
             <td>First Value</td>
-            <td><input type="text" name="firstNumber" id="firstNumber"> </td>
+            <td><input type="text" name="firstNumber" id="firstNumber" required> </td>
         </tr>
         <tr>
             <td colspan="2" align="center">
@@ -74,11 +90,11 @@
         </tr>
         <tr>
             <td>Second Number</td>
-            <td><input type="text" name="secondNumber" id="secondNumber"> </td>
+            <td><input type="text" name="secondNumber" id="secondNumber" required> </td>
         </tr>
         <tr>
             <td align="center">
-                <button onclick="cal()">Click Here</button> 
+                <button onclick="calculate()">Click Here</button> 
             </td>
             <td>
                 <span id="output"></span>
