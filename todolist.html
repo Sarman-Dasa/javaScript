@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <script>
+        let d;
+        let date;
+        let time;
+        const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        };
+        setInterval(() => {
+            d = new Date();
+            date = d.toLocaleDateString(undefined, options);
+            time = d.toLocaleTimeString();
+            document.getElementById("times").innerHTML = date + " " + time;
+        }, 1000);
+    </script>
+
+    <style>
+        .row>* {
+            padding-right: 0px !important;
+            padding-left: 0px !important;
+
+        }
+
+        table tbody {
+            display: block;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        table thead,
+        table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link" id="times">time</span>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Todo table -->
+    <div class="container table table-active mt-5">
+        <div class="row">
+            <div class="col-md-6 bg-secondary bg-body-secondary">
+                <div class="text-center text-bg-danger font-monospace">
+                    Todo's List
+                </div>
+                <form action="#" method="get">
+                    <div>
+                        <label for="title" class="form-label">Title</label>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="title" placeholder="Leave a comment here" />
+                            <label for="title">Add title</label>
+                            <span id="titleError" class="text-danger d-block"></span> 
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="description" class="form-label mt-3">Description</label>
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="description"
+                                style="height: 100px"></textarea>
+                            <label for="description">Add description</label>
+                            <span id="descriptionError" class="text-danger d-block"></span> 
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary btn-outline-success bg-black mt-4 pb-2 col-sm-5" id="add" value="submit">
+                            Submit
+                        </button>
+                        <button type="reset" class="btn btn-dark bg-danger mt-4 btn-outline-dark pb-2 col-sm-5" id="clear" value="reset">
+                            Clear
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <div>
+                    <table class="table">
+                        <thead class="text-center text-bg-info font-monospace">
+                            <tr>
+                                <th scope="col">Srno</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Decription</th>
+                                <th scope="col" colspan="2" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todolist" class="scoll">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        //set a error 
+        function setError(id, error) {
+            document.getElementById(id).innerHTML = error;
+        }
+        
+        //remove error message
+        function clearError() {
+            errors = document.getElementsByTagName('span');
+            for (let error of errors)
+                error.innerHTML = "";
+        }
+
+        // form validation function
+        function validation() {
+
+            clearError();
+            title = document.getElementById("title").value.trim();
+            desciption = document.getElementById("description").value.trim();
+
+            var result = true;
+            if (title == "") {
+                setError("titleError","Title is required");
+                result = false;
+            }
+            if (desciption == "") {
+                setError("descriptionError","Description is required");
+                result = false;
+            }
+            return result;
+        }
+
+        //get localstorage data
+        function getList() {
+
+            listJsonStr = localStorage.getItem("todolists");
+            listJsonArray = JSON.parse(listJsonStr);
+        }
+
+        // get submit button id
+        let add = document.getElementById("add");
+
+        //add onclick event on button
+        add.addEventListener("click", () => {
+
+            if (validation()) {
+                // get input value
+                title = document.getElementById("title").value;
+                desciption = document.getElementById("description").value;
+
+                // check localstorage data is null or not 
+                if (localStorage.getItem("todolists") == null) { // if data is null crate new array and store data
+                    listJsonArray = [];
+                    listJsonArray.push([title, desciption]);
+                    localStorage.setItem("todolists", JSON.stringify(listJsonArray));
+                } else { // if data not null they add new data on existing storage 
+                    getList();
+                    listJsonArray.push([title, desciption]);
+                    localStorage.setItem("todolists", JSON.stringify(listJsonArray));
+                }
+                // call show function to display new added data
+                show();
+            }
+        });
+
+        //show function they can display a localstorage data in table format
+        function show() {
+
+            getList(); // get local storage data 
+            let data = document.getElementById("todolist"); // get html tablebody id to set a data 
+            let str = "";
+
+            // genrage 
+            listJsonArray.forEach((element, index) => {
+                str += `
+                <tr>
+                        <th scope="row">${index + 1}</th>
+                        <td>${element[0]}</td>
+                        <td>${element[1]}</td>
+                        <td class="text-center"><button class="btn btn-danger btn-sm" onclick="deleted(${index})">Delete</button> </td>
+                        <td><button class="btn btn-danger btn-sm" onclick="edit(${index})">update</button> </td>
+                </tr>
+                `;
+            });
+            data.innerHTML = str;
+        }
+        show();
+        // delete a specific todo 
+        function deleted(listIndex) {
+
+            getList();
+            listJsonArray.splice(listIndex, 1);
+            //after remove element set new list into localstorage
+            localStorage.setItem("todolists", JSON.stringify(listJsonArray));
+            //call show function to display new data
+            show();
+        }
+
+        //fill data in form and update specific todo 
+        function edit(itemIndex) {
+
+            getList();
+            todo = listJsonArray[itemIndex];
+            title = document.getElementById("title").value = todo[0];
+            desciption = document.getElementById("description").value = todo[1];
+            let submitbtn = document.getElementById("add");
+            submitbtn.value = "update";
+            submitbtn.innerHTML = "update";
+
+            document.getElementById("add").addEventListener("click", () => {
+                getList();
+                console.log(itemIndex);
+                listJsonArray.splice(itemIndex, 2, [title, desciption]);
+                localStorage.setItem("todolists", JSON.stringify(listJsonArray));
+                show();
+                submitbtn.value = "submit";
+                submitbtn.innerHTML = "submit";
+            });
+        }
+    </script>
+</body>
+
+</html>
