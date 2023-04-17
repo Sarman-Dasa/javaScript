@@ -35,9 +35,12 @@
 <body>
     <div>
         <table border="3" align="center">
-            <thead>
-                <th colspan="3">Array Method</th>
-                <th> <button id="add">Add</button></th>
+            <thead style="border: none; outline: none; text-align: center;">
+                <td>Array Method</td>
+                <td> <button id="add">Add</button></td>
+                <td> <button id="sortAc">sort ^ </button></td>
+                <td> <button id="sortDc">sort &amalg; </button></td>
+                <td> <input type="text" id="searchcity" value="" onkeyup="searchCity(this.value)" placeholder="Enter City name to search"></td>
             </thead>
             <tbody id="tableboday">
             </tbody>
@@ -46,11 +49,12 @@
 
     <script>
         var cities = ["Ahmadabad","Amreli","Bharuch","Bhavnagar","Bhuj","Dwarka","Gandhinagar","Godhra","Jamnagar", "Junagadh","Kandla", "Khambhat", "Kheda", "Mahesana", "Morbi", "Nadiad", "Navsari", "Okha", "Palanpur","Patan", "Porbandar",  "Rajkot", "Surat",  "Surendranagar",  "Valsad", "Veraval"];
-        
+
+        // print city data in table format
         function show() {
             var str = "";
             for (let index = 0; index < cities.length; index++) {
-                str += `
+                str += ` 
                     <tr>
                         <td><input type="text" id="city${index}" value="${cities[index]}" disabled> </td>
                         <td><button onclick="deleted(${index})">Delete</button> </td>
@@ -58,6 +62,7 @@
                     </tr>
                 `;
             }
+            // printing a total number of city 
             str += `
                 <tr>
                     <td colspan="3" align="center"> Total City :-  ${cities.length} <td>
@@ -66,38 +71,88 @@
 
             document.getElementById("tableboday").innerHTML = str;
         }
+        //call show() when first time run to show a table data
         show();
 
-        let add = document.getElementById("add");
-        add.addEventListener("click" , () => {
-            var city = prompt("Enter City Name :");
-           cities.push(city);
-           show();
+
+          
+        let sortAc = document.getElementById("sortAc");
+        sortAc.addEventListener("click" , () => {
+            cities.sort();
+            show();
         });
 
+        let sortDc =document.getElementById("sortDc");
+        sortDc.addEventListener("click" , () => {
+            cities.sort();
+            cities.reverse();
+            show();
+        });
+
+
+        // add eventlistener on add button to add new city in cities array
+        let add = document.getElementById("add");
+        add.addEventListener("click" , () => {
+
+            var city = prompt("Enter City Name :");
+            cities.push(city);
+            show();
+
+        });
+
+        //delete city base on index
         function deleted(index) {
         
-            cities.pop(index);    
-            show();
+            if(confirm("Do you want to delete this record ?")) {
+                
+                cities.pop(index);
+                show();
+            }
         }
 
+        //edit city data base on index
         function edit(index) { 
-            
-            var city = prompt("Enter new city name :");
+
             var editCity = document.getElementById(`city${index}`);
             editCity.disabled = false;
             editCity.style.backgroundColor = "#fff";
-            console.log(c);
 
-            if(city != null && city.trim().length != 0) {
-                cities[index] = city;
-                show();
-            }
-            else {
-                alert("No city data updated.");
-            }
+            editCity.addEventListener("keydown", (event) => {
+
+                if(event.keyCode == 13) {
+                    
+                    if(editCity.value.length !=0) {
+                        
+                        //cities[index] = editCity.value; // first way to remove array element 
+                        cities.splice(index,0, editCity.value); // second way to remove element 
+                        editCity.disabled = true;
+                        editCity.style.backgroundColor = "#eee";
+
+                    } else {
+                        alert("black value does not allowed!!!")
+                    }
+                }
+                
+            });
         }
 
+        //search city
+        function searchCity (value) {
+            var str = "";
+           for (let index = 0; index < cities.length; index++) {
+                if(cities[index].match(value))
+                {
+                    str += ` 
+                    <tr>
+                        <td><input type="text" id="city${index}" value="${cities[index]}" disabled> </td>
+                        <td><button onclick="deleted(${index})">Delete</button> </td>
+                        <td><button onclick="edit(${index})">Edit</button> </td>
+                    </tr>
+                `;
+                }
+           }
+           document.getElementById("tableboday").innerHTML = str;
+        }
     </script>
 </body>
 
