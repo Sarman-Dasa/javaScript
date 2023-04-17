@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Method</title>
+</head>
+<style>
+    table {
+        width: 50%;
+        align-items: center;
+    }
+    table tbody {
+            display: block;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        table thead,
+        table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+    
+    input {
+        border: none;
+        padding: 10px;
+        width: 93%;
+        background-color: #eee;
+    }
+</style>
+<body>
+    <div>
+        <table border="3" align="center">
+            <thead>
+                <th colspan="3">Array Method</th>
+                <th> <button id="add">Add</button></th>
+            </thead>
+            <tbody id="tableboday">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var cities = ["Ahmadabad","Amreli","Bharuch","Bhavnagar","Bhuj","Dwarka","Gandhinagar","Godhra","Jamnagar", "Junagadh","Kandla", "Khambhat", "Kheda", "Mahesana", "Morbi", "Nadiad", "Navsari", "Okha", "Palanpur","Patan", "Porbandar",  "Rajkot", "Surat",  "Surendranagar",  "Valsad", "Veraval"];
+        
+        function show() {
+            var str = "";
+            for (let index = 0; index < cities.length; index++) {
+                str += `
+                    <tr>
+                        <td><input type="text" id="city${index}" value="${cities[index]}" disabled> </td>
+                        <td><button onclick="deleted(${index})">Delete</button> </td>
+                        <td><button onclick="edit(${index})">Edit</button> </td>
+                    </tr>
+                `;
+            }
+            str += `
+                <tr>
+                    <td colspan="3" align="center"> Total City :-  ${cities.length} <td>
+                </tr>
+            `;
+
+            document.getElementById("tableboday").innerHTML = str;
+        }
+        show();
+
+        let add = document.getElementById("add");
+        add.addEventListener("click" , () => {
+            var city = prompt("Enter City Name :");
+           cities.push(city);
+           show();
+        });
+
+        function deleted(index) {
+        
+            cities.pop(index);    
+            show();
+        }
+
+        function edit(index) { 
+            
+            var city = prompt("Enter new city name :");
+            var editCity = document.getElementById(`city${index}`);
+            editCity.disabled = false;
+            editCity.style.backgroundColor = "#fff";
+            console.log(c);
+
+            if(city != null && city.trim().length != 0) {
+                cities[index] = city;
+                show();
+            }
+            else {
+                alert("No city data updated.");
+            }
+        }
+
+    </script>
+</body>
+
+</html>
