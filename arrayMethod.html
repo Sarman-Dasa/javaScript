@@ -40,7 +40,7 @@
                 <td> <button id="add">Add</button></td>
                 <td> <button id="sortAc">sort ^ </button></td>
                 <td> <button id="sortDc">sort &amalg; </button></td>
-                <td> <input type="text" id="searchcity" value="" onkeyup="searchCity(this.value)" placeholder="Enter City name to search"></td>
+                <td> <input type="text" id="searchcity" value="" onkeyup="show(this.value)" placeholder="Enter City name to search"></td>
             </thead>
             <tbody id="tableboday">
             </tbody>
@@ -51,21 +51,28 @@
         var cities = ["Ahmadabad","Amreli","Bharuch","Bhavnagar","Bhuj","Dwarka","Gandhinagar","Godhra","Jamnagar", "Junagadh","Kandla", "Khambhat", "Kheda", "Mahesana", "Morbi", "Nadiad", "Navsari", "Okha", "Palanpur","Patan", "Porbandar",  "Rajkot", "Surat",  "Surendranagar",  "Valsad", "Veraval"];
 
         // print city data in table format
-        function show() {
+        function show(value = "") {
             var str = "";
             for (let index = 0; index < cities.length; index++) {
-                str += ` 
+                if(cities[index].match(value))
+                {
+                    str += ` 
                     <tr>
                         <td><input type="text" id="city${index}" value="${cities[index]}" disabled> </td>
                         <td><button onclick="deleted(${index})">Delete</button> </td>
                         <td><button onclick="edit(${index})">Edit</button> </td>
                     </tr>
                 `;
+                }
             }
-            // printing a total number of city 
+            // printing a total number of city
+            var d = new Date();
             str += `
                 <tr>
                     <td colspan="3" align="center"> Total City :-  ${cities.length} <td>
+                </tr>
+                <tr>
+                    <td> ${d.toLocaleDateString()} </td>
                 </tr>
             `;
 
@@ -136,23 +143,6 @@
             });
         }
 
-        //search city
-        function searchCity (value) {
-            var str = "";
-           for (let index = 0; index < cities.length; index++) {
-                if(cities[index].match(value))
-                {
-                    str += ` 
-                    <tr>
-                        <td><input type="text" id="city${index}" value="${cities[index]}" disabled> </td>
-                        <td><button onclick="deleted(${index})">Delete</button> </td>
-                        <td><button onclick="edit(${index})">Edit</button> </td>
-                    </tr>
-                `;
-                }
-           }
-           document.getElementById("tableboday").innerHTML = str;
-        }
     </script>
 </body>
 
