@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Objects</title>
+    <script>
+        
+        function employeeData() {
+
+            const employee = {
+                firstName: "xyz",
+                lastname: "abc",
+                age: 22,
+                mobile: 9664734399,
+                city: "gandhinagar",
+                fullName : function() {
+                    return this.firstName + " " + this.lastname; 
+                }
+            };
+            let data = "Mr. " + employee.fullName() + " you are " + employee.age + " years old and your city is " + employee.city + " ,contact number is : "+ employee.mobile +"."
+            document.getElementById("data").innerHTML = data;
+        }
+    </script>
+</head>
+<body>
+    <button type="button" onclick="employeeData()">Print Employee Data</button>
+    <p id="data"></p>
+</body>
+</html>
